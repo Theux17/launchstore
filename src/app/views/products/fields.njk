@@ -13,7 +13,7 @@
 </div>
 
 <div class="item">
-    <div>Name</div>
+    <div>Título</div>
     <div>
         <input 
             type="text" 
@@ -26,9 +26,7 @@
 <div class="item">
     <div>Descrição</div>
     <div>
-        <textarea name="description">
-            {{ product.description }}
-        </textarea>
+        <textarea name="description">{{ product.description }}</textarea>
     </div>
 </div>
 
@@ -44,8 +42,9 @@
             name="price"
             placeholder="Preço do produto"
             value="{{ product.price }}" 
-
-         {# Faremos uma máscara de dinheiro/reais #}
+            {#máscara de dinheiro/reais #}
+            onkeydown = "Mask.apply(this, 'formatBRL')"
+ 
         >
     </div>
 
@@ -66,7 +65,7 @@
     </div>
 </div>
 
-{% if product.status %}
+{% if ( product.status == '1' ) or ( product.status == 0 ) %}
 
 <div class="item">
     <div>Disponível</div>
