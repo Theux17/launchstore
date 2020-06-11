@@ -61,10 +61,26 @@ body {
     transition: all 0.2s
 }
 
-
 .button:hover {
     background-color: #e68c27
 }
+
+.button.edit {
+    background-color: var(--secondary-color);
+}
+
+.button.delete {
+   background-color: lightgray; 
+}
+
+.button.edit:hover {
+    background-color: #0cc4ee;
+}
+
+.button.delete:hover {
+   background-color: rgb(226, 12, 12); 
+}
+
 
 /* Header */
 header, footer {
@@ -181,6 +197,10 @@ section.form .header h3 {
     margin-bottom: 16px;
 }
 
+form .fields {
+    margin-bottom: 64px;
+}
+
 form .item {
     margin-bottom: 16px;
 }
@@ -195,7 +215,7 @@ form .item > div:nth-child(1) {
 }
 
 form .item input[type="text"],
-form .item input[tupe="number"],
+form .item input[type="number"],
 form .item textarea,
 form .item select {
     width: 100%;
@@ -230,6 +250,15 @@ form .item textarea {
     resize: none;
 }
 
-form .fields {
-    margin-bottom: 64px;
+form .item span {
+    padding: 8px 16px;
+    background-color: var(--primary-color);
+    border-radius: 16px;
+    color: white;
+    margin-right: 4px;
+    margin-top: 8px;
+    display: inline-block;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12px;
 }
