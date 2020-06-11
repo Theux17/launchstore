@@ -1,6 +1,6 @@
 module.exports = { 
     
-date(timestamp) {
+    date(timestamp) {
         const date = new Date(timestamp)
         
         const year = date.getUTCFullYear()
@@ -16,5 +16,12 @@ date(timestamp) {
             format: `${day}/${month}/${year}`
 
         }
+    },
+    
+    formatPrice(price){
+        return new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        }).format(price/100)
     }
 } 
