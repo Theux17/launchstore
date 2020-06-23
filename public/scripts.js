@@ -22,12 +22,12 @@ const Mask = {
 
         value = String(value).replace(/\D/g, "")
 
-            return new Intl.NumberFormat('pt-BR', {
-                style: 'percent',
-                maximumSignificantDigits: 2,
-                maximumSignificantDigits: 4,
-                
-            }).format(value / 100)
+        return new Intl.NumberFormat('pt-BR', {
+            style: 'percent',
+            maximumSignificantDigits: 2,
+            maximumSignificantDigits: 4,
+
+        }).format(value / 100)
     },
 
     CPF(value) {
@@ -77,11 +77,11 @@ const PhotosUpload = {
     preview: document.querySelector('#photos-preview'),
     uploadLimit: 6,
     files: [],
-    handleFileInput (event) {
+    handleFileInput(event) {
         const { files: fileList } = event.target
         PhotosUpload.input = event.target
 
-        if(PhotosUpload.hasLimit(event)) return
+        if (PhotosUpload.hasLimit(event)) return
 
         Array.from(fileList).forEach(file => {
 
@@ -103,18 +103,18 @@ const PhotosUpload = {
 
             // Esse é o momento que ele fica pronto, quando ele lê o file
             reader.readAsDataURL(file)
-        
+
         })
 
         PhotosUpload.input.files = PhotosUpload.getAllFiles()
 
     },
 
-    hasLimit(event){
-        const { uploadLimit, input, preview  } = PhotosUpload
+    hasLimit(event) {
+        const { uploadLimit, input, preview } = PhotosUpload
         const { files: fileList } = input
 
-        if(fileList.length > uploadLimit){
+        if (fileList.length > uploadLimit) {
             alert(`Envie no máximo ${uploadLimit} fotos.`)
             event.preventDefault()
             return true
@@ -124,12 +124,12 @@ const PhotosUpload = {
 
         preview.childNodes.forEach(item => {
             if (item.classList && item.classList.value == "photo")
-            photosDiv.push(item)
+                photosDiv.push(item)
         })
 
-        const totalPhotos = fileList.length +   photosDiv.length
+        const totalPhotos = fileList.length + photosDiv.length
 
-        if(totalPhotos > uploadLimit ){
+        if (totalPhotos > uploadLimit) {
             alert("Você atingiu o limite máximo de fotos!")
             event.preventDefault()
             return true
@@ -138,19 +138,19 @@ const PhotosUpload = {
         return false
     },
 
-    getAllFiles(){
+    getAllFiles() {
         const dataTransfer = new DataTransfer()
 
         // Para cada file ele vai adicionar o dataTransfer adicionado um arquivo
         PhotosUpload.files.forEach(file => dataTransfer.items.add(file))
-    
-        return dataTransfer.files        
+
+        return dataTransfer.files
     },
 
-    getConatainer(image){
+    getConatainer(image) {
         const div = document.createElement('div')
         div.classList.add('photo')
-                
+
         div.onclick = PhotosUpload.removePhoto
 
         div.appendChild(image)
@@ -160,15 +160,15 @@ const PhotosUpload = {
         return div
     },
 
-    getRemoveButton(){
+    getRemoveButton() {
         const button = document.createElement('i')
         button.classList.add('material-icons')
         button.innerHTML = "close"
-        
+
         return button
     },
 
-    removePhoto(event){
+    removePhoto(event) {
         const photoDiv = event.target.parentNode // <div class="photos">
 
         // Pegando de uma lista que é o preview (dentro dele tem as fotos)
@@ -177,9 +177,22 @@ const PhotosUpload = {
 
         // Vai remover o index que ele encontrar (que é ele mesmo), e o 2° argumento é quantos elementos do array ele vai remover (no caso abaixo é 1, que é ele mesmo)
         PhotosUpload.files.splice(index, 1)
-        
+
         // Atualizo o input com as imagens novas
         PhotosUpload.input.files = PhotosUpload.getAllFiles()
+
+        photoDiv.remove()
+    },
+
+    removeOldPhoto(event) {
+        const photoDiv = event.target.parentNode
+
+        if (photoDiv.id) {
+            const removedFiles = document.querySelector('input[name="removed_files"')
+            if (removedFiles) {
+                removedFiles.value += `${photoDiv.id},` // Vai colocar id no value (1, 2, 3)
+            }
+        }
 
         photoDiv.remove()
     }
