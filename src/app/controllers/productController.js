@@ -35,9 +35,6 @@ module.exports = {
         if (req.files.length == 0)
             return res.send("Please, send at last one image")
 
-
-
-
         // Vou pegar o results no await 
         let results = await Product.create(req.body)
         // Produto salvo
@@ -64,10 +61,17 @@ module.exports = {
             hours: `${hours}h${minutes} `,
         }
 
-        product.oldPrice = formatPrice(product.price)
-        product.oldPrice = formatPrice(product.oldPrice)
+        product.price = formatPrice(product.price)
+        product.oldPrice = formatPrice(product.old_price)
 
-        return res.render("products/show", { product })
+        results = await Product.files(product.id)
+        const files = results.rows.map(file => ({
+            ...file,
+            src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
+        }))
+
+
+        return res.render("products/show", { product, files })
     },
 
     async edit(req, res) {
@@ -92,10 +96,7 @@ module.exports = {
             src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
         }))
 
-
-
         return res.render("products/edit.njk", { product, categories, files })
-
     },
 
     async put(req, res) {
@@ -106,7 +107,6 @@ module.exports = {
                 return res.send("Please, fill all fields")
             }
         }
-
 
         if(req.files.length != 0){
             const newFilesPromise = req.files.map(file => 
@@ -125,7 +125,6 @@ module.exports = {
             await Promise.all(removedFilesPromise)
         }
 
-
         req.body.price = req.body.price.replace(/\D/g, "")
 
         if (req.body.old_price != req.body.price) {
@@ -133,7 +132,7 @@ module.exports = {
 
             req.body.old_price = oldProduct.rows[0].price
         }
-
+        
         await Product.update(req.body)
 
         return res.redirect(`/products/${req.body.id}`)
