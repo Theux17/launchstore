@@ -30,7 +30,7 @@ doubleResultAndSum()
 // Máscara de CPF
 const Mask = {
 
-    CPF(value) {
+    cpf(value) {
         value = String(value)
             .replace(/\D/g, "")
             .slice(0, 11)
