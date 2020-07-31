@@ -1,6 +1,6 @@
 @keyframes hidemessage {
     to {
-        transform: translateX(50px);
+        right: 20;
         opacity: 0;
     }
 }
@@ -20,6 +20,12 @@
 
 .messages.error {
     background-color: #e74c3c;
+    border-radius: 4px;
+
+}
+
+.messages.sucess {
+    background-color: #04a34c;
     border-radius: 4px;
 
 }
