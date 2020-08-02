@@ -12,7 +12,7 @@ module.exports = {
             `
             // Entra no where ou no or e pega o email ou cpf_cnpj            
             Object.keys(filters[key]).map(field => {
-                query = ` ${query} ${field} = '${filters[key][field]}' `
+                query = `${query} ${field} = '${filters[key][field]}'`
             })
 
         })
@@ -46,7 +46,7 @@ module.exports = {
             ]
 
             const results = await db.query(query, values)
-            return results.rows[0]
+            return results.rows[0].id
         }
         catch(err) {
             console.error(err);
