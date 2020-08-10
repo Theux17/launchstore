@@ -1,9 +1,15 @@
-section.login.container {
+section.login.container, 
+section.password.container {
     max-width: 500px;
-
 }
 
-section.login.container .fields {
+section.password.container input,
+section.password.container div.error{
+    max-width: 100%;
+}
+
+section.login.container .fields,
+section.password.container .fields {
     margin-bottom: 32px;
 }
 
