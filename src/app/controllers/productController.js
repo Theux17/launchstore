@@ -35,6 +35,8 @@ module.exports = {
         if (req.files.length == 0)
             return res.send("Please, send at last one image")
 
+
+        req.body.user_id = req.session.userId
         // Vou pegar o results no await 
         let results = await Product.create(req.body)
         // Produto salvo
@@ -139,6 +141,7 @@ module.exports = {
     },
 
     async delete(req, res) {
+        await File.delete(req.body.id)
         await Product.delete(req.body.id)
 
         return res.redirect('products/create')

@@ -19,19 +19,19 @@ module.exports = {
 
         return db.query(query, values)
     },
-    async delete(id) {
+    async delete(productId) {
 
         try {
+            const result = await db.query(`SELECT * FROM files WHERE product_id = $1`, [productId])
+            const files = result.rows
 
-            const result = await db.query(`SELECT * FROM files WHERE id = $1`, [id])
-            const file = result.rows[0]
-
-            fs.unlinkSync(file.path)
+            files.map(file => fs.unlinkSync(file.path) )
 
             return db.query(`
-                DELETE FROM files WHERE id = $1
+                DELETE FROM files WHERE product_id = $1
             
-            `, [id])
+            `, [productId])
+
         }catch(err){
             console.error(err)
         }
