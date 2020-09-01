@@ -3,14 +3,16 @@ const db = require('../../config/db')
 function find(filters, table){
     let query = `SELECT * FROM ${table}`
 
-    // Está rodando o - WHERE | OR | AND 
-    Object.keys(filters).map(key => {
-        query += ` ${key} `
-        // Entra no where ou no or e pega o email ou cpf_cnpj            
-        Object.keys(filters[key]).map(field => {
-            query += `${field} = '${filters[key][field]}'`
-        })
-    })
+    if(filters){
+        // Está rodando o - WHERE | OR | AND 
+        Object.keys(filters).map(key => {
+            query += ` ${key} `
+            // Entra no where ou no or e pega o email ou cpf_cnpj            
+            Object.keys(filters[key]).map(field => {
+                query += `${field} = '${filters[key][field]}'`
+            })
+        })        
+    }
 
     return db.query(query)
 }

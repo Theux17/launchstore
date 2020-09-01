@@ -1,7 +1,7 @@
-const crypto = require('crypto')
-const { hash } = require('bcryptjs')
-
 const User = require('../models/User')
+
+const { hash } = require('bcryptjs')
+const crypto = require('crypto')
 const mailer = require('../../lib/mailer')
 
 module.exports = {
