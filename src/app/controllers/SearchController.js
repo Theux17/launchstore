@@ -5,8 +5,7 @@ const { formatPrice } = require('../../lib/utils')
 module.exports = {
     async index(req, res) {
         try{
-            let results,
-                params = {}
+            let params = {}
 
             const {filter, category} = req.query
 
@@ -28,7 +27,7 @@ module.exports = {
             }
     
 
-            const products = products.rows.map(async product => {
+            let products = products.rows.map(async product => {
                 product.img = await getImage(product.id)
                 product.oldPrice = formatPrice(product.old_price)
                 product.price = formatPrice(product.price)
@@ -36,7 +35,7 @@ module.exports = {
                 return product
             })
 
-            let products = await Promise.all(productsPromise)
+            products = await Promise.all(productsPromise)
 
             const search = {
                 term: req.query.filter,

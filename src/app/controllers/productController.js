@@ -1,3 +1,5 @@
+const { unlinkSync } = require('fs')
+
 const Category = require('../models/Category')
 const Product = require('../models/Product')
 const File = require('../models/File')
@@ -30,7 +32,7 @@ module.exports = {
                 return res.send("Please, send at last one image")
 
             let { category_id, name, description, old_price,
-                price, quantity, status, created, updated_at } = req.body
+                price, quantity, status} = req.body
 
             price = price.replace(/\D/g, "")
 
@@ -48,10 +50,10 @@ module.exports = {
 
             // Me retorna um novo array de promessas através do map
             const filesPromise = req.files.map(file =>
-                File.create({ ...file, product_id }))
+                File.create({ name: file.filename, path: file.path, product_id }))
             await Promise.all(filesPromise)
 
-            return res.redirect(`/products/${productId}/edit`)
+            return res.redirect(`/products/${product_id}/edit`)
 
         } catch (error) {
             console.error(error)
@@ -78,7 +80,7 @@ module.exports = {
             product.oldPrice = formatPrice(product.old_price)
 
             let files = await Product.files(product.id)
-            files = files.rows.map(file => ({
+            files = files.map(file => ({
                 ...file,
                 src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
             }))
@@ -101,11 +103,11 @@ module.exports = {
             product.price = formatPrice(product.price)
 
             // pega as categorias
-            const categories = await Category.all()
+            const categories = await Category.findAll()
 
             //pega as imagens
             let files = await Product.files(product.id)
-            files = file(file => ({
+            files = files.map(file => ({
                 ...file,
                 src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
             }))
@@ -170,8 +172,16 @@ module.exports = {
     },
 
     async delete(req, res) {
-        await File.delete(req.body.id)
+        const files = await Product.files(req.body.id)
         await Product.delete(req.body.id)
+        
+        files.map(file => {
+            try {
+                unlinkSync(file.path)
+            } catch (err) {
+                console.error(err)
+            }
+        })
 
         return res.redirect('products/create')
     }

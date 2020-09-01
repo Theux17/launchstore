@@ -43,6 +43,8 @@ CREATE TABLE "users" (
   "name" text NOT NULL,
   "email" text UNIQUE NOT NULL,
   "password" text NOT NULL,
+  "reset_token" TEXT,
+  "reset_token_expires" TEXT,
   "cpf_cnpj" text UNIQUE NOT NULL,
   "cep" text,
   "address" text, 
