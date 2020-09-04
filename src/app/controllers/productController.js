@@ -38,7 +38,7 @@ module.exports = {
 
             // Me retorna um novo array de promessas através do map
             const filesPromise = req.files.map(file =>
-                File.create({ name: file.filename, path: file.path, product_id }))
+                File.create({ name: file.filename, path: file.path.replace(/\\/g, "/" ), product_id }))
             await Promise.all(filesPromise)
 
             return res.redirect(`/products/${product_id}/edit`)
@@ -81,19 +81,12 @@ module.exports = {
 
     async put(req, res) {
         try {
-            const keys = Object.keys(req.body)
-
-            for (key of keys) {
-                if (req.body[key] == "" && key != "removed_files") {
-                    return res.send("Please, fill all fields")
-                }
-            }
-
             if (req.files.length != 0) {
                 const newFilesPromise = req.files.map(file =>
-                    File.create({ ...file, product_id: req.body.id }))
-                await Promise.all(newFilesPromise)
-            }
+                    File.create({name: file.filename, path: file.path.replace(/\\/g, "/" ), product_id: req.body.id}))
+                    await Promise.all(newFilesPromise)
+                }
+
 
             if (req.body.removed_files) {
                 // 1,2,3
