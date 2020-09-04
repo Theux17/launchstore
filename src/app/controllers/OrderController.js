@@ -44,12 +44,12 @@ module.exports = {
             })
 
             // notificar o usuário com alguma mensagem de sucesso 
-            return res.render('orders/succes')
+            return res.render('orders/success')
         
         } catch (error) {
             // ou erro
             console.error(error)
-            return res.render('orders/succes')
+            return res.render('orders/error')
         }
     }
 }
