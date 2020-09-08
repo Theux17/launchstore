@@ -21,3 +21,57 @@
 
     margin-bottom: 16px;
 }
+
+.cart-empty  {
+    text-align: center;
+}
+
+.cart-empty p {
+    font-size: 18px;
+}
+
+.cart-empty .button {
+    width: 220px;
+    margin: 16px auto;
+    transition: 400ms;
+}
+
+.cart-empty .button:hover {
+    width: 260px;
+}
+
+/* menu */
+header div.container {
+    grid-template-columns: 220px auto 315px;
+    grid-gap: 8px;
+}
+
+li.cart a {
+    position: relative;
+}
+
+li.cart a span {
+    background-color: red;
+    border-radius: 50%;
+
+    width: 20px;
+    height: 20px;
+
+    font-size: 12px;
+    font-weight: bold;
+
+    position: absolute;
+    top: 12px;
+    right: 0px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: 400ms
+}
+
+li.cart a span:hover {
+    background-color: white;
+    color: black;
+}
