@@ -5,10 +5,12 @@ const homeController = require('../app/controllers/HomeController')
 
 const products = require('./products')
 const users = require('./users')
+const cart = require('./cart')
 
 routes.get("/", homeController.index)
 routes.use('/products', products)
 routes.use('/users', users)
+routes.use('/cart', cart)
 
 // Alias (atalhos)
 routes.get("/ads/create", function(req, res){
