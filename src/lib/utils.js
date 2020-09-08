@@ -1,3 +1,5 @@
+const Intl = require('intl')
+
 module.exports = { 
     
     date(timestamp) {
