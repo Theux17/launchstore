@@ -33,7 +33,7 @@ module.exports = {
         const getOrdersPromise = orders.map(async order => {
             
             // detalhes do produto
-            order.product = await LoadProductService.load('products', { where: { id: order.product_id } })
+            order.product = await LoadProductService.load('product', { where: { id: order.product_id } })
             
             // detalhes do comprador
             order.buyer = await User.findOne({ where: { id: order.buyer_id } })
@@ -59,7 +59,7 @@ module.exports = {
             const formattedDate = `${updatedAt.day}/${updatedAt.month}/${updatedAt.year}`
             const updateTime = `${updatedAt.hours}h${updatedAt.minutes}`
 
-            order.formattedUpdateAt = `${order.formattedStatus} em ${formattedDate} às ${updateTime}`
+            order.formattedUpdatedAt = `${order.formattedStatus} em ${formattedDate} às ${updateTime}`
 
             return order
         })
