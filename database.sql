@@ -137,3 +137,18 @@ CREATE TRIGGER set_timestamp
 BEFORE UPDATE ON orders
 FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_timestamp();
+
+-- SOFT DELETE
+ALTER TABLE products ADD COLUMN "deleted_at" timestamp;
+
+CREATE OR REPLACE RULE deleted_products AS 
+ON DELETE TO products DO INSTEAD
+UPDATE products 
+SET deleted_at = now()
+WHERE products.id = old.id;
+
+CREATE VIEW products_without_deleted AS 
+SELECT * FROM products WHERE deleted_at IS NULL;
+
+ALTER TABLE products RENAME TO products_with_deleted;
+ALTER VIEW products_without_deleted RENAME TO products;
